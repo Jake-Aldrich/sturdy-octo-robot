@@ -1,0 +1,27 @@
+{
+  "name": "octobot",
+  "version": "1.0.0",
+  "description": "Discord bot that adds commands to choose teams or decide on a game to play.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jake-Aldrich/sturdy-octo-robot.git"
+  },
+  "author": "Jake Aldrich",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jake-Aldrich/sturdy-octo-robot/issues"
+  },
+  "homepage": "https://github.com/Jake-Aldrich/sturdy-octo-robot#readme",
+  "dependencies": {
+    "@discordjs/builders": "^0.12.0",
+    "@discordjs/rest": "^0.3.0",
+    "discord-api-types": "^0.30.0",
+    "discord.js": "^13.6.0",
+    "dotenv": "^16.0.0",
+    "lodash": "^4.17.21"
+  }
+}
