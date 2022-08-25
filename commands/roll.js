@@ -13,21 +13,25 @@ function rollDice(rolls, size) {
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('roll')
-		.setDescription('Roll a dice using the NdN format to set the dice number and type.')
+		.setDescription('Roll dice with options to set the size and number of dice.')
         .addStringOption(option =>
-            option.setName('dice')
-                .setDescription('Number and type of dice to roll in the NdN format.')
+            option.setName('size')
+                .setDescription('Size of the dice to roll.')
+                .setRequired(true))
+        .addStringOption(option =>
+            option.setName('number')
+                .setDescription('Number of dice to roll.')
                 .setRequired(true)),
 	async execute(interaction) {
         try {
             // Parse the dice option  
-            const dice = interaction.options.getString('dice')
-            const [rolls, dice_size] = dice.split('d');
+            const dice_size = interaction.options.getString('size')
+            const rolls = interaction.options.getString('number')
 
             const roll_results = rollDice(rolls, dice_size);
             
             // Format the results into a String to send as a response
-            result = `Result of ${dice}:\n ${roll_results.join(' + ')}`;
+            result = `Result of ${rolls}d${dice_size}:\n ${roll_results.join(' + ')}`;
             if(rolls > 1) {
                 result += ` = ${roll_results.reduce((sum, x) => sum + x)}`;
             }
