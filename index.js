@@ -1,5 +1,4 @@
-const axios = require('axios');
-const fs = require('node:fs');
+const fs = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
 require('dotenv').config()
 
