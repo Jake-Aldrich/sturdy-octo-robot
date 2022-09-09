@@ -9,7 +9,7 @@ async function getMembersInVoice(interaction) {
 
     voice_members = voice_channels.map(vc => {
         return vc.members.map(mem => {
-            return mem.user.username
+            return { username: mem.user.username, id: mem.id }
         })
     });
 
@@ -46,18 +46,32 @@ module.exports = {
             option.setName('team_count')
                 .setDescription('Number of teams')
                 .setRequired(true)),
-	async execute(interaction) {
+	async execute(interaction, data) {
+        let temp_data = data;
+
         try {  
-            const team_count = interaction.options.getInteger('team_count')            
-            const voice_members = await getMembersInVoice(interaction)
+            const guildId = interaction.guildId
+            const team_count = interaction.options.getInteger('team_count')
+            
+            if(!temp_data[guildId]) {
+                temp_data[guildId] = {}
+            } 
+            
+            if(!temp_data[guildId].voice_members) {
+                console.log(`No members found for guild '${guildId}', fetching voice members...`)
+                temp_data[guildId].voice_members = await getMembersInVoice(interaction)
+            } else {
+                console.log(`Using cached voice members for guild '${guildId}...`)
+            }
 
-            const teams = chooseTeams(team_count, voice_members);
+            const teams = chooseTeams(team_count, temp_data[guildId].voice_members);
 
-            result = teams.map((t, i) => `Team ${i + 1}: ${t.join(', ')}`).join('\n');
+            result = teams.map((t, i) => `Team ${i + 1}: ${t.map(u => u.username).join(', ')}`).join('\n');
         } catch (ex) {
             result = `Error dividing teams: ${ex}`;
         }
 
         await interaction.reply(result);
+        return temp_data
 	},
 };
